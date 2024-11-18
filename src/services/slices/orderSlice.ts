@@ -18,7 +18,7 @@ export const initialState: TOrderState = {
   error: null
 };
 
-export const getOrderByNumber: any = createAsyncThunk(
+export const getOrderByNumber = createAsyncThunk(
   'order/byNumber',
   async (number: number) => getOrderByNumberApi(number)
 );
@@ -26,11 +26,7 @@ export const getOrderByNumber: any = createAsyncThunk(
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
-  reducers: {
-    clearResponse: (state) => {
-      // state.response = initialState.response;
-    }
-  },
+  reducers: {},
   selectors: {
     getOrderState: (state) => state
   },
@@ -41,7 +37,7 @@ export const orderSlice = createSlice({
         state.request = true;
       })
       .addCase(getOrderByNumber.rejected, (state, action) => {
-        state.error = action.error.message;
+        state.error = action.error.message as string;
         state.request = false;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
@@ -52,6 +48,5 @@ export const orderSlice = createSlice({
   }
 });
 
-export const { clearResponse } = orderSlice.actions;
 export const { getOrderState } = orderSlice.selectors;
 export default orderSlice.reducer;

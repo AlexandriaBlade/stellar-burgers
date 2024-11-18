@@ -2,7 +2,7 @@ import { getFeedsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
-type feedState = {
+type TFeedState = {
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -10,7 +10,7 @@ type feedState = {
   error: string | null;
 };
 
-const initialState: feedState = {
+const initialState: TFeedState = {
   orders: [],
   total: 0,
   totalToday: 0,
@@ -18,9 +18,7 @@ const initialState: feedState = {
   error: null
 };
 
-export const getFeeds: any = createAsyncThunk('feeds/all', async () =>
-  getFeedsApi()
-);
+export const getFeeds = createAsyncThunk('feeds/all', getFeedsApi);
 
 export const feedSlice = createSlice({
   name: 'feed',
@@ -37,7 +35,7 @@ export const feedSlice = createSlice({
       })
       .addCase(getFeeds.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error.message as string;
       })
       .addCase(getFeeds.fulfilled, (state, action) => {
         state.loading = false;

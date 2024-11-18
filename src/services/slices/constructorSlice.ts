@@ -29,7 +29,7 @@ export const initialState: TConsturctorState = {
   error: null
 };
 
-export const orderBurger: any = createAsyncThunk(
+export const orderBurger = createAsyncThunk(
   'user/order',
   async (data: string[]) => orderBurgerApi(data)
 );
@@ -91,7 +91,7 @@ export const constructorSlice = createSlice({
       .addCase(orderBurger.rejected, (state, action) => {
         state.loading = false;
         state.orderRequest = false;
-        state.error = action.error.message;
+        state.error = action.error.message as string;
       })
       .addCase(orderBurger.fulfilled, (state, action) => {
         state.loading = false;

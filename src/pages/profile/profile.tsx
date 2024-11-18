@@ -1,7 +1,6 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from '@store';
+import { useSelector, useDispatch } from '@store';
 import {
   getUser,
   getUserState,

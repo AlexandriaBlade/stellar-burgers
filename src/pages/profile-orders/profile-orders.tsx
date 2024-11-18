@@ -1,8 +1,7 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from '@store';
+import { useSelector, useDispatch } from '@store';
 import { getOrdersAll, getUserState } from '../../services/slices/userSlice';
 import { getFeeds } from '../../services/slices/feedSlice';
 

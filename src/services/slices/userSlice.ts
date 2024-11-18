@@ -16,7 +16,7 @@ import { TOrder, TUser } from '@utils-types';
 type TUserState = {
   request: boolean;
   error: string | null;
-  response: TAuthResponse | null;
+  response: TUser | null;
   registerData: TRegisterData | null;
   userData: TUser | null;
   isAuthChecked: boolean;
@@ -42,7 +42,7 @@ export const registerUser = createAsyncThunk(
   async (registerData: TRegisterData) => await registerUserApi(registerData)
 );
 
-export const loginUser: any = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   'user/loginUser',
   async ({ email, password }: TLoginData) => {
     const data = await loginUserApi({ email, password });
@@ -55,32 +55,16 @@ export const loginUser: any = createAsyncThunk(
   }
 );
 
-export const getUser: any = createAsyncThunk('user/getUser', async () =>
-  getUserApi()
-);
+export const getUser = createAsyncThunk('user/getUser', getUserApi);
 
-export const getOrdersAll: any = createAsyncThunk('user/ordersUser', async () =>
-  getOrdersApi()
-);
+export const getOrdersAll = createAsyncThunk('user/ordersUser', getOrdersApi);
 
-export const updateUser: any = createAsyncThunk(
+export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async (data: TRegisterData) => updateUserApi(data)
+  async (data: Partial<TRegisterData>) => updateUserApi(data)
 );
 
-export const logoutUser: any = createAsyncThunk(
-  'user/logoutUser',
-  async (_, { dispatch }) =>
-    logoutApi()
-      .then(() => {
-        localStorage.clear();
-        deleteCookie('accessToken');
-        dispatch(userLogout());
-      })
-      .catch(() => {
-        console.log('Ошибка выполнения выхода');
-      })
-);
+export const logoutUser = createAsyncThunk('user/logoutUser', logoutApi);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -112,7 +96,7 @@ export const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         (state.request = false),
           (state.error = null),
-          (state.response = action.payload);
+          (state.response = action.payload.user);
         state.userData = action.payload.user;
         state.isAuthChecked = false;
         state.isAuthenticated = true;
@@ -160,7 +144,7 @@ export const userSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         (state.request = false),
           (state.error = null),
-          (state.response = action.payload);
+          (state.response = action.payload.user);
       })
       .addCase(logoutUser.pending, (state) => {
         state.isAuthenticated = true;
@@ -174,13 +158,14 @@ export const userSlice = createSlice({
         state.error = action.error.message as string;
         state.request = false;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
+      .addCase(logoutUser.fulfilled, (state) => {
         state.isAuthenticated = false;
         state.isAuthChecked = false;
         state.error = null;
         state.request = false;
-        state.response = action.payload;
-        state.userData = initialState.userData;
+        state.userData = null;
+        localStorage.clear();
+        deleteCookie('accessToken');
       })
       .addCase(getOrdersAll.pending, (state) => {
         state.error = null;
