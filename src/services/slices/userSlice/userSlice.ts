@@ -8,9 +8,9 @@ import {
   logoutApi,
   updateUserApi,
   registerUserApi
-} from '@api';
+} from '../../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { deleteCookie, setCookie } from '../../utils/cookie';
+import { deleteCookie, setCookie } from '../../../utils/cookie';
 import { TOrder, TUser } from '@utils-types';
 
 type TUserState = {
@@ -25,7 +25,7 @@ type TUserState = {
   userOrders: TOrder[];
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   request: false,
   error: null,
   response: null,
@@ -64,7 +64,12 @@ export const updateUser = createAsyncThunk(
   async (data: Partial<TRegisterData>) => updateUserApi(data)
 );
 
-export const logoutUser = createAsyncThunk('user/logoutUser', logoutApi);
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+  logoutApi().then(() => {
+    localStorage.clear();
+    deleteCookie('accessToken');
+  });
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -164,8 +169,8 @@ export const userSlice = createSlice({
         state.error = null;
         state.request = false;
         state.userData = null;
-        localStorage.clear();
-        deleteCookie('accessToken');
+        // localStorage.clear();
+        // deleteCookie('accessToken');
       })
       .addCase(getOrdersAll.pending, (state) => {
         state.error = null;

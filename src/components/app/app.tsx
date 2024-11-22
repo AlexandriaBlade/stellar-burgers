@@ -17,8 +17,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { useDispatch } from '@store';
 import { useEffect } from 'react';
-import { getUser } from '../../services/slices/userSlice';
-import { getIngredients } from '../../services/slices/ingredientSlice';
+import { getUser } from '../../services/slices/userSlice/userSlice';
+import { getIngredients } from '../../services/slices/ingredientSlice/ingredientSlice';
 import { CenteringComponent } from '../centering-component/centering-component';
 
 const App = () => {
