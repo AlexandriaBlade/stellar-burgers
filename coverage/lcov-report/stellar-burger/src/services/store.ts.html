@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,27 +96,19 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -124,24 +116,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { combineReducers, configureStore } from '@reduxjs/toolkit';</span>
-<span class="cstat-no" title="statement not covered" >import constructorSlice from './slices/constructorSlice/constructorSlice';</span>
-<span class="cstat-no" title="statement not covered" >import orderSlice from './slices/orderSlice';</span>
-<span class="cstat-no" title="statement not covered" >import feedSlice from './slices/feedSlice';</span>
-<span class="cstat-no" title="statement not covered" >import userSlice from './slices/userSlice';</span>
-<span class="cstat-no" title="statement not covered" >import ingredientSlice from './slices/ingredientSlice';</span>
-<span class="cstat-no" title="statement not covered" >import {</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import constructorSlice from './slices/constructorSlice/constructorSlice';
+import orderSlice from './slices/orderSlice/orderSlice';
+import feedSlice from './slices/feedSlice/feedSlice';
+import userSlice from './slices/userSlice/userSlice';
+import ingredientSlice from './slices/ingredientSlice/ingredientSlice';
+import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
 &nbsp;
-const rootReducer = <span class="cstat-no" title="statement not covered" >combineReducers({</span>
+export const rootReducer = combineReducers({
   ingredient: ingredientSlice,
   order: orderSlice,
   constructorBurger: constructorSlice,
@@ -149,7 +149,7 @@ const rootReducer = <span class="cstat-no" title="statement not covered" >combin
   user: userSlice
 });
 &nbsp;
-const store = <span class="cstat-no" title="statement not covered" >configureStore({</span>
+const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
@@ -158,10 +158,10 @@ export type RootState = ReturnType&lt;typeof rootReducer&gt;;
 &nbsp;
 export type AppDispatch = typeof store.dispatch;
 &nbsp;
-export const <span class="cstat-no" title="statement not covered" >useDispatch: () =&gt; AppDispatch = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>) =&gt; <span class="cstat-no" title="statement not covered" >d</span>ispatchHook(</span>);</span>
-export const <span class="cstat-no" title="statement not covered" >useSelector: TypedUseSelectorHook&lt;RootState&gt; = selectorHook;</span>
+export const useDispatch: () =&gt; AppDispatch = <span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >d</span>ispatchHook();</span>
+export const useSelector: TypedUseSelectorHook&lt;RootState&gt; = selectorHook;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default store;</span>
+export default store;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -169,7 +169,7 @@ export const <span class="cstat-no" title="statement not covered" >useSelector: 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-18T15:14:24.611Z
+                at 2024-04-20T16:02:16.646Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
