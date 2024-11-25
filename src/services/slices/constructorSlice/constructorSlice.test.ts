@@ -8,8 +8,8 @@ import constructorSlice, {
 } from './constructorSlice';
 import { expect, test, describe } from '@jest/globals';
 
-// Константы для повторяющихся объектов
-const bun = {
+// Константы для тестовых данных
+const bunData = {
   _id: '643d69a5c3f7b9001cfa093c',
   name: 'Краторная булка N-200i',
   type: 'bun',
@@ -20,11 +20,10 @@ const bun = {
   price: 1255,
   image: 'https://code.s3.yandex.net/react/code/bun-02.png',
   image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-  id: 'unique-bun-id' // Убедитесь, что id уникален
+  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png'
 };
 
-const sauce = {
+const sauceData = {
   _id: '643d69a5c3f7b9001cfa0943',
   name: 'Соус фирменный Space Sauce',
   type: 'sauce',
@@ -35,83 +34,92 @@ const sauce = {
   price: 80,
   image: 'https://code.s3.yandex.net/react/code/sauce-04.png',
   image_mobile: 'https://code.s3.yandex.net/react/code/sauce-04-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/sauce-04-large.png',
-  id: 'unique-sauce-id' // Убедитесь, что id уникален
+  image_large: 'https://code.s3.yandex.net/react/code/sauce-04-large.png'
 };
 
+const anotherBunData = {
+  _id: '643d69a5c3f7b9001cfa093d',
+  name: 'Флюоресцентная булка R2-D3',
+  type: 'bun',
+  proteins: 44,
+  fat: 26,
+  carbohydrates: 85,
+  calories: 643,
+  price: 988,
+  image: 'https://code.s3.yandex.net/react/code/bun-01.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png'
+};
+
+// Обновленный код тестов
 describe('Тестирование редьюсера constructorSlice', () => {
   
   describe('Тестирование экшена добавления ингредиента', () => {
+    
+    const expectedResult = {
+      ...initialState,
+      constructorItems: {
+        bun: { ...bunData, id: expect.any(String) }, // Используем spread-операцию
+        ingredients: [
+          { ...sauceData, id: expect.any(String) } // Используем spread-операцию
+        ]
+      }
+    };
+
     test('Тест на добавление ингредиента в массив ingredients', () => {
       const newState = constructorSlice(
         initialState,
-        addIngredient(sauce)
+        addIngredient({ ...sauceData })
       );
 
       const ingredient = newState.constructorItems.ingredients[0];
+      const expectedIngredient = expectedResult.constructorItems.ingredients[0];
 
-      // Проверяем, что добавленный ингредиент соответствует ожидаемому
-      expect(ingredient).toEqual({
-        ...sauce,
-        id: expect.any(String) // Идентификатор должен быть строкой
-      });
+      expect(ingredient).toEqual(expectedIngredient);
     });
 
     test('Добавление булки в пустое поле', () => {
       const newState = constructorSlice(
         initialState,
-        addIngredient(bun)
+        addIngredient({ ...bunData })
       );
 
-      const addedBun = newState.constructorItems.bun;
+      const bun = newState.constructorItems.bun;
+      const expectedBun = expectedResult.constructorItems.bun;
 
-      // Проверяем, что булка добавлена корректно
-      expect(addedBun).toEqual({
-        ...bun // Убедитесь, что id не переопределяется
-      });
+      expect(bun).toEqual(expectedBun);
     });
 
     test('Тест на замену ранее добавленной булки', () => {
       const initialStateWithBun = {
         ...initialState,
         constructorItems: {
-          bun: {
-            ...bun,
-            id: 'its so funny =D' // Убедитесь, что id уникален
-          },
+          bun: { ...bunData, id: 'its so funny =D' },
           ingredients: []
         }
       };
 
-      const newBun = {
-        _id: '643d69a5c3f7b9001cfa093d',
-        name: 'Флюоресцентная булка R2-D3',
-        type: 'bun',
-        proteins: 44,
-        fat: 26,
-        carbohydrates: 85,
-        calories: 643,
-        price: 988,
-        image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/bun-01-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png',
-        id: 'new-bun-id' // Убедитесь, что id уникален
+      const expectedResultForBuns = {
+        ...initialStateWithBun,
+        constructorItems: {
+          bun: { ...anotherBunData, id: expect.any(String) },
+          ingredients: []
+        }
       };
 
       const newState = constructorSlice(
         initialStateWithBun,
-        addIngredient(newBun)
+        addIngredient({ ...anotherBunData })
       );
 
-      const addedBun = newState.constructorItems.bun;
+      const bun = newState.constructorItems.bun;
+      const expectedBun = expectedResultForBuns.constructorItems.bun;
 
-      // Проверяем, что булка была заменена корректно
-      expect(addedBun).toEqual({
-        ...newBun // Убедитесь, что id не переопределяется
-      });
+      expect(bun).toEqual(expectedBun);
     });
   });
 
+  // Тестирование экшена удаления ингредиента
   describe('Тестирование экшена removeIngredient', () => {
     const initialStateWithIngredient = {
       ...initialState,
@@ -120,9 +128,17 @@ describe('Тестирование редьюсера constructorSlice', () => {
         ingredients: [
           {
             id: 'funny',
-            ...sauce
+            ...sauceData
           }
         ]
+      }
+    };
+
+    const expectedResult = {
+      ...initialStateWithIngredient,
+      constructorItems: {
+        bun: null,
+        ingredients: []
       }
     };
 
@@ -133,9 +149,7 @@ describe('Тестирование редьюсера constructorSlice', () => {
       );
 
       const received = newState.constructorItems.ingredients;
-
-      // Проверяем, что ингредиент был удален корректно
-      expect(received).toEqual([]);
+      expect(expectedResult.constructorItems.ingredients).toEqual(received);
     });
   });
 
@@ -143,11 +157,11 @@ describe('Тестирование редьюсера constructorSlice', () => {
     const initialStateWithIngredients = {
       ...initialState,
       constructorItems: {
-        bun: bun,
+        bun: { ...bunData, id: 'funBun' },
         ingredients: [
           {
             id: 'funnyPig1',
-            ...sauce
+            ...sauceData
           },
           {
             id: 'funnyPig2',
@@ -161,23 +175,42 @@ describe('Тестирование редьюсера constructorSlice', () => {
             price: 300,
             image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
             image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
-            image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png',
-            id: 'funnyPig2-id' // Убедитесь, что id уникален
+            image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png'
           },
           {
             id: 'funnyPig3',
-            _id: '643d69a5c3f7b9001cfa0947',
-            name: 'Плоды Фалленианского дерева',
+            ...sauceData
+          }
+        ]
+      }
+    };
+
+    const expectedResult = {
+      ...initialStateWithIngredients,
+      constructorItems: {
+        bun: { ...bunData, id: 'funBun' },
+        ingredients: [
+          {
+            id: 'funnyPig1',
+            ...sauceData
+          },
+          {
+            id: 'funnyPig3',
+            ...sauceData
+          },
+          {
+            id: 'funnyPig2',
+            _id: '643d69a5c3f7b9001cfa0946',
+            name: 'Хрустящие минеральные кольца',
             type: 'main',
-            proteins: 20,
-            fat: 5,
-            carbohydrates: 55,
-            calories: 77,
-            price: 874,
-            image: 'https://code.s3.yandex.net/react/code/sp_1.png',
-            image_mobile: 'https://code.s3.yandex.net/react/code/sp_1-mobile.png',
-            image_large: 'https://code.s3.yandex.net/react/code/sp_1-large.png',
-            id: 'funnyPig3-id' // Убедитесь, что id уникален
+            proteins: 808,
+            fat: 689,
+            carbohydrates: 609,
+            calories: 986,
+            price: 300,
+            image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
+            image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
+            image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png'
           }
         ]
       }
@@ -185,82 +218,12 @@ describe('Тестирование редьюсера constructorSlice', () => {
 
     test('Тест на перемещение ингредиента на позицию выше', () => {
       const newState = constructorSlice(initialStateWithIngredients, moveIngredientUp(2));
-      const expectedIngredients = [
-        {
-          id: 'funnyPig1',
-          ...sauce
-        },
-        {
-          id: 'funnyPig3',
-          _id: '643d69a5c3f7b9001cfa0947',
-          name: 'Плоды Фалленианского дерева',
-          type: 'main',
-          proteins: 20,
-          fat: 5,
-          carbohydrates: 55,
-          calories: 77,
-          price: 874,
-          image: 'https://code.s3.yandex.net/react/code/sp_1.png',
-          image_mobile: 'https://code.s3.yandex.net/react/code/sp_1-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/sp_1-large.png'
-        },
-        {
-          id: 'funnyPig2',
-          _id: '643d69a5c3f7b9001cfa0946',
-          name: 'Хрустящие минеральные кольца',
-          type: 'main',
-          proteins: 808,
-          fat: 689,
-          carbohydrates: 609,
-          calories: 986,
-          price: 300,
-          image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
-          image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png'
-        }
-      ];
-
-      expect(newState.constructorItems.ingredients).toEqual(expectedIngredients);
+      expect(expectedResult.constructorItems.ingredients).toEqual(newState.constructorItems.ingredients);
     });
 
     test('Перемещение ингредиента на позицию ниже', () => {
       const newState = constructorSlice(initialStateWithIngredients, moveIngredientDown(1));
-      const expectedIngredients = [
-        {
-          id: 'funnyPig1',
-          ...sauce
-        },
-        {
-          id: 'funnyPig2',
-          _id: '643d69a5c3f7b9001cfa0946',
-          name: 'Хрустящие минеральные кольца',
-          type: 'main',
-          proteins: 808,
-          fat: 689,
-          carbohydrates: 609,
-          calories: 986,
-          price: 300,
-          image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
-          image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png'
-        },
-        {
-          id: 'funnyPig3',
-          _id: '643d69a5c3f7b9001cfa0947',
-          name: 'Плоды Фалленианского дерева',
-          type: 'main',
-          proteins: 20,
-          fat: 5,
-          carbohydrates: 55,
-          calories: 77,
-          price: 874,
-          image: 'https://code.s3.yandex.net/react/code/sp_1.png',
-          image_mobile: 'https://code.s3.yandex.net/react/code/sp_1-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/sp_1-large.png'
-        }
-      ];
-
-      expect(newState.constructorItems.ingredients).toEqual(expectedIngredients);
+      expect(expectedResult.constructorItems.ingredients).toEqual(newState.constructorItems.ingredients);
     });
   });
 
