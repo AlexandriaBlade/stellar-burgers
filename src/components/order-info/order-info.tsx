@@ -7,8 +7,8 @@ import { useParams } from 'react-router-dom';
 import {
   getOrderByNumber,
   getOrderState
-} from '../../services/slices/orderSlice';
-import { getIngredientState } from '../../services/slices/ingredientSlice';
+} from '../../services/slices/orderSlice/orderSlice';
+import { getIngredientState } from '../../services/slices/ingredientSlice/ingredientSlice';
 
 export const OrderInfo: FC = () => {
   const number = Number(useParams().number);
