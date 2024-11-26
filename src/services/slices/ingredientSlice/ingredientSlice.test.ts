@@ -1,10 +1,10 @@
-import ingredientSlice, { getIngredients, initialState } from './ingredientSlice';
+import ingredientSlice, {
+  getIngredients,
+  initialState
+} from './ingredientSlice';
 
-describe('Тестирование редьюсера ingredientSlice', () => {
-  
-
-  describe('Группа тестов для асинхронного GET экшена getIngredients', () => {
-    // Определяем различные состояния экшена
+describe('тестирование редьюсера ingredientSlice', () => {
+  describe('тестирование асинхронного GET экшена getIngredients', () => {
     const actions = {
       pending: {
         type: getIngredients.pending.type,
@@ -16,26 +16,26 @@ describe('Тестирование редьюсера ingredientSlice', () => {
       },
       fulfilled: {
         type: getIngredients.fulfilled.type,
-        payload: ['ingr1', 'ingr2'] // Ожидаемые данные ингредиентов
+        payload: ['ingr1', 'ingr2']
       }
     };
 
-    test('Тест для состояния getIngredients.pending', () => {
+    test('тест синхронного экшена getIngredients.pending', () => {
       const state = ingredientSlice(initialState, actions.pending);
-      expect(state.loading).toBe(true); // Проверяем, что загрузка начата
-      expect(state.error).toBe(actions.pending.payload); // Ошибка должна быть null
+      expect(state.loading).toBe(true);
+      expect(state.error).toBe(actions.pending.payload);
     });
 
-    test('Тест для состояния getIngredients.rejected', () => {
+    test('тест синхронного экшена getIngredients.rejected', () => {
       const state = ingredientSlice(initialState, actions.rejected);
-      expect(state.loading).toBe(false); // Проверяем, что загрузка завершена
-      expect(state.error).toBe(actions.rejected.error.message); // Проверяем сообщение об ошибке
+      expect(state.loading).toBe(false);
+      expect(state.error).toBe(actions.rejected.error.message);
     });
 
-    test('Тест для состояния getIngredients.fulfilled', () => {
+    test('тест синхронного экшена getIngredients.fulfilled', () => {
       const nextState = ingredientSlice(initialState, actions.fulfilled);
-      expect(nextState.loading).toBe(false); // Проверяем, что загрузка завершена
-      expect(nextState.ingredients).toEqual(actions.fulfilled.payload); // Проверяем, что ингредиенты обновлены
+      expect(nextState.loading).toBe(false);
+      expect(nextState.ingredients).toEqual(actions.fulfilled.payload);
     });
   });
 });

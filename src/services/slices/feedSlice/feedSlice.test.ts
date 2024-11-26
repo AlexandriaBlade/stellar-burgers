@@ -1,9 +1,7 @@
 import feedSlice, { getFeeds, initialState } from './feedSlice';
 
 describe('тестирование редьюсера feedSlice', () => {
-  
-  describe('Группа тестов для асинхронного GET экшена getFeeds', () => {
-    // Определяем различные состояния экшена
+  describe('тестирование асинхронного GET экшена getFeeds', () => {
     const actions = {
       pending: {
         type: getFeeds.pending.type,
@@ -15,26 +13,26 @@ describe('тестирование редьюсера feedSlice', () => {
       },
       fulfilled: {
         type: getFeeds.fulfilled.type,
-        payload: { orders: ['order1', 'order2'] } // Ожидаемые данные заказов
+        payload: { orders: ['order1', 'order2'] }
       }
     };
 
-    test('Тест для состояния getFeeds.pending', () => {
+    test('тест синхронного экшена getFeeds.pending', () => {
       const state = feedSlice(initialState, actions.pending);
-      expect(state.loading).toBe(true); // Проверяем, что загрузка начата
-      expect(state.error).toBe(actions.pending.payload); // Ошибка должна быть null
+      expect(state.loading).toBe(true);
+      expect(state.error).toBe(actions.pending.payload);
     });
 
-    test('Тест для состояния getFeeds.rejected', () => {
+    test('тест синхронного экшена getFeeds.rejected', () => {
       const state = feedSlice(initialState, actions.rejected);
-      expect(state.loading).toBe(false); // Проверяем, что загрузка завершена
-      expect(state.error).toBe(actions.rejected.error.message); // Проверяем сообщение об ошибке
+      expect(state.loading).toBe(false);
+      expect(state.error).toBe(actions.rejected.error.message);
     });
 
-    test('Тест для состояния getFeeds.fulfilled', () => {
+    test('тест синхронного экшена getFeeds.fulfilled', () => {
       const nextState = feedSlice(initialState, actions.fulfilled);
-      expect(nextState.loading).toBe(false); // Проверяем, что загрузка завершена
-      expect(nextState.orders).toEqual(actions.fulfilled.payload.orders); // Проверяем, что заказы обновлены
+      expect(nextState.loading).toBe(false);
+      expect(nextState.orders).toEqual(actions.fulfilled.payload.orders);
     });
   });
 });
